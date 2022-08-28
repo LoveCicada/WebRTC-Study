@@ -13,6 +13,12 @@
 
 [WebRTC手写实现腾讯QQ实时音视频通话技术](https://www.bilibili.com/video/BV1VK4y1N7EN/?p=2&spm_id_from=pageDriver&vd_source=3c71e3397ca331aa190dd5e2f3a7c122)
 
+[WebRTC对等连接方式](https://www.bilibili.com/video/BV1Dr4y1S7Xx/?spm_id_from=333.788&vd_source=3c71e3397ca331aa190dd5e2f3a7c122)
+
+[WebRTC通信工作流程](https://www.bilibili.com/video/BV1Qq4y1q77m/?spm_id_from=333.788&vd_source=3c71e3397ca331aa190dd5e2f3a7c122)
+
+
+
 - doc  
 
 [WebRtc C++ API 开发学习记录](https://github.com/HATTER-LONG/NoteBook_WebRtcLearning)
@@ -74,6 +80,37 @@ WebRTC基于UDP，因而有低延迟但会丢包的特点，特别适合网络�
 1. 媒体协商
 2. 连通性收集与处理
 3. 传输
-
 ```
 
+- 信令的作用
+```
+1. 协商媒体功能和设置
+2. 标识和验证会话参与者的身份
+3. 控制媒体会话、指示进度、更改会话和终止会话
+4. 当会话双方同时尝试建立或更改会话时，实施双专用分解（Glare Resolution）
+```
+
+***
+
+- WebRTC通信流程
+![WebRTC-connect-process-zh](./img/WebRTC-connect-process-zh.png)
+
+- WebRTC通信流程
+![WebRTC-connect-process-en](./img/WebRTC-connect-process-en.png)
+
+- WebRTC通信流程
+![WebRTC-connect-stun-turn](./img/WebRTC-connect-stun-turn.png)
+
+***
+
+- 专业名词解释
+- ICE
+```
+interactive connectivity establishment
+交互式连接建立技术
+```
+- NAT
+```
+network address translation
+网络地址转换
+```
