@@ -35,6 +35,15 @@
 
 [WebRTC浅析与实战](https://davidchen93.blog.csdn.net/article/details/120067269?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-120067269-blog-6947101.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-120067269-blog-6947101.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=3)
 
+[搞定WebRTC音视频直播通信技术（核心技术精讲篇）](https://www.cnblogs.com/rajan/p/12308606.html)
+
+[WebRTC TURN协议初识及turnserver实践](https://zhuanlan.zhihu.com/p/71025431)
+
+- 环境搭建
+
+[WebRTC环境搭建-声网](https://webrtc.org.cn/mirror/)
+
+
 - open code
 
 [开源STUN和TURN服务器](http://webrtcbook.com/turnserver/)
@@ -76,6 +85,53 @@ WebRTC基于UDP，因而有低延迟但会丢包的特点，特别适合网络�
 服务质量：
 ```
 
+- 会话描述协议SDP
+```
+Session description
+    v=  (protocol version)
+    o=  (originator and session identifier)
+    s=  (session name)
+    i=* (session information)
+    u=* (URI of description)
+    e=* (email address)
+    p=* (phone number)
+    c=* (connection information -- not required if included in all media)
+    b=* (zero or more bandwidth information lines)
+    [...One or more time descriptions ("t=" and "r=" lines)]
+    z=* (time zone adjustments)
+    k=* (encryption key)
+    a=* (zero or more session attribute lines)
+    [...Zero or more media descriptions]
+
+Time description
+    t=  (time the session is active)
+    r=* (zero or more repeat times)
+
+Media description, if present
+    m=  (media name and transport address)
+    i=* (media title)
+    c=* (connection information -- optional if included at session level)
+    b=* (zero or more bandwidth information lines)
+    k=* (encryption key)
+    a=* (zero or more media attribute lines)
+```
+- sdp example
+```
+v=0
+o=jdoe 2890844526 2890842807 IN IP4 10.47.16.5
+s=SDP Seminar
+i=A Seminar on the session description protocol
+u=[http://www.example.com/seminars/sdp.pdf](http://www.example.com/seminars/sdp.pdf)
+[e](mailto:e=j.doe@example.com)[=j.doe@example.com](mailto:e=j.doe@example.com) (Jane Doe)
+c=IN IP4 224.2.17.12/127
+t=2873397496 2873404696
+a=recvonly
+m=audio 49170 RTP/AVP 0
+m=video 51372 RTP/AVP 99
+a=rtpmap:99 h263-1998/90000
+```
+
+
 ```
 1. 媒体协商
 2. 连通性收集与处理
@@ -100,6 +156,29 @@ WebRTC基于UDP，因而有低延迟但会丢包的特点，特别适合网络�
 
 - WebRTC通信流程
 ![WebRTC-connect-stun-turn](./img/WebRTC-connect-stun-turn.png)
+
+- WebRTC-framework
+![WebRTC-framework](./img/WebRTC-framework.png)
+
+- WebRTC-connect-process
+![WebRTC-connect-process](./img/WebRTC-connect-process.png)
+
+>> 通常音视频通信架构如上图所示，通信双方分部是caller（主叫）与callee（被叫），两边的内部逻辑相似，下面以caller端为例，了解内部流程：
+1. 调用音视频检测模块，检测终端是否有可用的音视频设备。
+2. 调用音视频采集模块，采集用户音视频数据。
+3. 根据用户选择，是否开启录制（授权）
+4. 通过信令模块交换SDP
+5. 创建WebRTC的核心对象RTCPeerConnection，之后添加采集到的音视频数据
+6. RTCPeerConnection向STUN（session traversal utilities for NAT）/TURN（traversal using relays around NAT）服务器发送请求，返回caller的外围IP地址和端口号
+7. 通过信令服务器，caller和callee互相传递对方的外围IP地址和端口（媒体协商）
+8. 最终P2P链接建立完成，后面就会源源不断的发送音视频数据到对端
+
+
+- 泳道图
+![connect-process](./img/connect-process.png)
+
+- 协商流程
+![negotiate](./img/negotiate.png)
 
 ***
 
